@@ -9,6 +9,8 @@ root@a3c3ba4d7b46:/var/www/html/myproject.com# PHP_IDE_CONFIG="serverName=server
 ```
 Output example:
 
+![Showcase](showcase.jpg)
+
 Output:
 ```
 root@a3c3ba4d7b46:/var/www/html/myproject.com# PHP_IDE_CONFIG="serverName=server_name"  php vendor/fantomx1/datatabless/initAssets.php -w backend/web/,frontend/web

@@ -1,0 +1,45 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "0741718672a5b9a9b9d26d32384b4829",
+    "packages": [
+        {
+            "name": "fantomx1/cli-parameters-parser",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../CliParametersParser",
+                "reference": "88c44e4296741e8ad512a474941559c2263bdeec"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "fantomx1\\": "."
+                }
+            },
+            "authors": [
+                {
+                    "name": "frantisek.hallo",
+                    "email": "fantomx1@gmail.com"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "fantomx1/cli-parameters-parser": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
+}
