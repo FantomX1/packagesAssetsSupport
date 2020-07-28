@@ -3,9 +3,15 @@ handles assets for generic(=non-framework specific) php packages
 
 
 Sample usage, output:
-
+Usage:
 ```
-root@a3c3ba4d7b46:/var/www/html/wapp/myproject.com# PHP_IDE_CONFIG="serverName=server_name"  php vendor/fantomx1/datatabless/initAssets.php -w backend/web/,frontend/web
+root@a3c3ba4d7b46:/var/www/html/myproject.com# PHP_IDE_CONFIG="serverName=server_name"  php vendor/fantomx1/datatabless/initAssets.php -w backend/web/,frontend/web
+```
+Output example:
+
+Output:
+```
+root@a3c3ba4d7b46:/var/www/html/myproject.com# PHP_IDE_CONFIG="serverName=server_name"  php vendor/fantomx1/datatabless/initAssets.php -w backend/web/,frontend/web
   1  Probing asset packages to install ...
 1.) - probing package components/jqueryui
   2  All asset packages are already installed, continuing...
