@@ -1,0 +1,24 @@
+{
+    "name": "fantomx1/packages-assets-support",
+    "type": "library",
+    "authors": [
+        {
+            "name": "frantisek.hallo",
+            "email": "fantomx1@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "fantomx1\\": "."
+        }
+    },
+    "require": {
+        "fantomx1/cli-parameters-parser": "@dev"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../CliParametersParser"
+        }
+    ]
+}
