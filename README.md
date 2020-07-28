@@ -4,7 +4,7 @@ handles assets for generic(=non-framework specific) php packages
 
 Sample usage, output:
 
-
+```
 root@a3c3ba4d7b46:/var/www/html/wapp/myproject.com# PHP_IDE_CONFIG="serverName=server_name"  php vendor/fantomx1/datatabless/initAssets.php -w backend/web/,frontend/web
   1  Probing asset packages to install ...
 1.) - probing package components/jqueryui
@@ -71,5 +71,5 @@ ln: failed to create symbolic link 'assets/assets': File exists
 /var/www/html/fantomx1/PackagesAssetsSupport/PackagesAssetsSupport.php:288:
 array(0) {
 }
-
+```
 
