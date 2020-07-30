@@ -3,7 +3,7 @@ handles assets for generic(=non-framework specific) php packages
 
 
 
-##Sample usage of installing the assets:
+## Sample usage of installing the assets:
 
 ```
 root@a3c3ba4d7b46:/var/www/html/myproject.com# PHP_IDE_CONFIG="serverName=server_name"  php vendor/fantomx1/datatabless/initAssets.php -w backend/web/,frontend/web
@@ -31,7 +31,7 @@ $pathToAssets
 where the $rootDir is the root dir of the our package in regard , it is being used in
 
 )
-##Output example:
+## Output example:
 
 ![Showcase](showcase.jpg)
 
