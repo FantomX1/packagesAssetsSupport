@@ -3,12 +3,17 @@ handles assets for generic(=non-framework specific) php packages
 
 
 
-## Sample usage of installing the assets:
+## Sample usage of installing the assets (via the library command initAssets):
 
 ```
 root@a3c3ba4d7b46:/var/www/html/myproject.com# PHP_IDE_CONFIG="serverName=server_name"  php vendor/fantomx1/datatabless/initAssets.php -w backend/web/,frontend/web
 ```
-
+various symlink locations for redistributions must be comma separated like 'backend/web, frontend/web'
+The list of asset packages in regard must be listed in the library using this one, in a json file
+named 'assetPackages.json'. Those will be destined to be handled by asset manager.
+(Note: In future can be added functionality of publishing only the specific asset part of the other library,
+however this library is not intended to solve intricacies of other libraries assets, since they can share
+just this library to solve their issues, though it might be added later)
 
 (
 then using inside a packages view like for other library assets
