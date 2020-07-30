@@ -177,10 +177,32 @@ class PackagesAssetsSupport
         }
 
         $messageCounter = floor($messageCounter/10)+1; echo "\n";
-
-
-
     }
+
+
+    /**
+     * @param $rootDirOfPackageUsedIn
+     * @param $packageORpathToAssetsDir
+     * @return string
+     */
+    public function getAssetsDir($rootDirOfPackageUsedIn, $package)
+    {
+
+        // @TODO: documeent roo? probably not as assets dir is next to assets so if its document root,
+        // or no, the path fits, regards web_dir, though if include file, adjust to app, not a task of, just cause of coping
+        // as with depth
+        // dir location of asset per package based on vendor and package name, for current package
+        $prefix = basename(dirname($rootDirOfPackageUsedIn)) . '/' . basename($rootDirOfPackageUsedIn);
+
+        $result = $this->packagesAssetsSubdir . '/' . $prefix;
+        if ($package) {
+            $result .= '/'.$package;
+        }
+
+        return $result;
+    }
+
+
 
     /**
      * @param $currentPackageDir
@@ -205,13 +227,10 @@ class PackagesAssetsSupport
         }
 
 
-        $vendorDir = dirname($currentPackageDir, 2) . '/vendor';
+        //$vendorDir = dirname($currentPackageDir, 2) . '/vendor';
+        $vendorDir = $currentPackageDir . '/vendor';
 
         //$prefix='fcrons';
-
-        // dir location of asset per package based on vendor and package name, for current package
-        $prefix = basename(dirname($currentPackageDir)) . '/' . basename($currentPackageDir);
-
 
 
         // todo relative, absolute not advantage and makes problems for this
@@ -229,14 +248,13 @@ class PackagesAssetsSupport
 
         foreach ($assetPackages as $package) {
 
-            //$depDir = $vendorDir . '/components/jqueryui/';
-            $depDir = $vendorDir . '/' . $package;
 
 
 
             echo   str_pad(" ", strlen($messageCounter)+1).++$messageCounter . " Precreating assets folder for \e[31m ! ".$package." !\e[0m  package     \n";
 
-            $relativePackageAssetsDir = $this->packagesAssetsSubdir . '/' . $prefix. '/' . dirname($package) ;
+
+            $relativePackageAssetsDir = dirname($this->getAssetsDir($currentPackageDir, $package));
 
             // singular for all using this technique, not to clutter , single assets dir, not for every vendor even though it might happen
 
@@ -266,10 +284,12 @@ class PackagesAssetsSupport
         foreach ($assetPackages as $package) {
 
 
+            //$depDir = $vendorDir . '/components/jqueryui/';
+            $depDir = $vendorDir . '/' . $package;
 
             echo   str_pad(" ", strlen($messageCounter)+1).++$messageCounter . " Creating symlink  for \e[31m ! ".$package." !\e[0m  package     \n";
 
-            $relativePackageAssetsDir = $this->packagesAssetsSubdir . '/' . $prefix. '/' . dirname($package) ;
+            $relativePackageAssetsDir = dirname($this->getAssetsDir($currentPackageDir, $package));
 
             if ($package == $ownPackageAssetsDir) {
                 // reuse for not duplicated logic and same output
@@ -281,7 +301,7 @@ class PackagesAssetsSupport
 
             // example
             //$command = 'cd ' . $webDir . '/packageAssets/' . $prefix . '/'.dirname($package).' && ln -s ' . $depDir . '  jqueryui' . "\n";
-            $command = 'cd ' . $webDir . '/' . $relativePackageAssetsDir  . ' && ln -s ' . $depDir . '  ' . basename($package) . '' . "\n";
+            $command = 'cd ' . $webDir . '/' . $relativePackageAssetsDir  . ' && ln -sf ' . $depDir . '  ' . basename($package) . '' . "\n";
             echo $command;
 
             exec($command, $out);

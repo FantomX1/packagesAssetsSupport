@@ -2,12 +2,36 @@
 handles assets for generic(=non-framework specific) php packages
 
 
-Sample usage, output:
-Usage:
+
+##Sample usage of installing the assets:
+
 ```
 root@a3c3ba4d7b46:/var/www/html/myproject.com# PHP_IDE_CONFIG="serverName=server_name"  php vendor/fantomx1/datatabless/initAssets.php -w backend/web/,frontend/web
 ```
-Output example:
+
+
+(
+then using inside a packages view like for other library assets
+```
+<?php
+$packageAssetsSupport = new \fantomx1\PackagesAssetsSupport();
+$pathToAssets 
+?>
+
+<script type="text/javascript" src="<?php echo $assetsHandler->getAssetsDir($rootDir, "components/jqueryui/).'/js/jsfile.js'; ?>">
+</script>
+
+// for own library assets not passing the vendor assets library name
+
+<script type="text/javascript" src="<?php echo $assetsHandler->getAssetsDir($rootDir, '').'/assets/js/jsfile.js'; ?>">
+</script>
+```
+
+
+where the $rootDir is the root dir of the our package in regard , it is being used in
+
+)
+##Output example:
 
 ![Showcase](showcase.jpg)
 
