@@ -19,6 +19,17 @@ class PackagesAssetsSupport
 
 
     /**
+     * @var array
+     */
+    private $errors = [
+        -1 => " -w - WebDir parameter not supplied, is mandatory, exiting ...",
+//        -2 => ' -p - current package dir not specified',
+        //-3 => '-o - own assets dir not specified'
+        -4 => ' The specified "ownAssetsDir" directory does not exist'
+    ];
+
+
+    /**
      *
      */
     private function listAvailableParams()
@@ -27,6 +38,8 @@ class PackagesAssetsSupport
         $paramsList =
             [
                 'webdir'=>' public web directory document root, where to symlink the assets',
+                //'package'=>' current package working directory',
+                'ownAssetsDir'=>' Own assets directory',
             ];
 
 
@@ -45,17 +58,19 @@ class PackagesAssetsSupport
     /**
      * @param $messageCounter
      */
-    public function actionFailedWebdirCondition($messageCounter)
+    public function actionFailedWebdirCondition(&$messageCounter)
     {
+        return -1;
         echo str_pad(" ", strlen($messageCounter)+1).++$messageCounter . " \033[31m -w - WebDir parameter not supplied, is mandatory, exiting ...\033[0m  \n";
-        die();
+        return false;
     }
 
     /**
+     * run without params to be gotten via command line
      * @param $currentPackageDir
      * @param $ownPackageAssets
      */
-    public function run($currentPackageDir, $ownPackageAssetsDir)
+    public function run($currentPackageDir = null, $ownPackageAssetsDir = null)
     {
 
         $params = (new CliParamsParser())->parse();
@@ -74,13 +89,64 @@ class PackagesAssetsSupport
         }
 
 
-        $assetPackages = file_get_contents($currentPackageDir . "/assetPackages.json");
-
-        $assetPackages = json_decode($assetPackages, true);
-
-        $assetPackages = $assetPackages['packages'];
-
         $messageCounter = 0;
+
+
+
+        try {
+
+            $this->checks(
+                $currentPackageDir,
+                $ownPackageAssetsDir,
+                $params,
+                $messageCounter
+            );
+
+
+//            if ($params['p'] == "." || $params['p'] == "./") {
+//
+//                // it will be the dir, it was called from
+//                $params['p'] = getcwd();
+//            }
+
+            // mandatory params , means, we are calling directly from this library, not a wrapping script
+            if (!$currentPackageDir) {
+                $currentPackageDir =  getcwd();;
+            }
+
+            if (isset($params['o'])) {
+                $ownPackageAssetsDir = $params['o'];
+
+
+                if (!is_dir($currentPackageDir .'/'.$ownPackageAssetsDir)) {
+                    throw new \Exception("", -4);
+                }
+
+            }
+
+        } catch (\Exception $e) {
+
+            echo $e->getCode(). ' - ' . $this->errors[$e->getCode()] ." \n";
+            //echo $e->getCode();
+            return;
+
+        }
+
+
+
+        echo 'Current package dir     = "'.$currentPackageDir.'"'." \n";
+        echo 'Own package assets dir  = "'.$ownPackageAssetsDir.'"'." \n";
+
+        $assetPackages = [];
+
+        if (file_exists($currentPackageDir . "/assetPackages.json")) {
+
+            $assetPackages = file_get_contents($currentPackageDir . "/assetPackages.json");
+
+            $assetPackages = json_decode($assetPackages, true);
+
+            $assetPackages = $assetPackages['packages'];
+        }
 
         $this->installAssetPackages($currentPackageDir, $assetPackages, $messageCounter);
 
@@ -93,15 +159,68 @@ class PackagesAssetsSupport
 
 
         //private function distributePackagesAssets($packageDir, array $params, &$messageCounter, $assetPackages)
-        if (empty($params['w'])) {
-            $action= ["actionFailedWebdirCondition",[$messageCounter]];
-            function() {
-                $this->actionFailedWebdirCondition();
-            };
-        }
+//        if (empty($params['w'])) {
+//            $action= ["actionFailedWebdirCondition",[$messageCounter]];
+//            function() {
+//                $this->actionFailedWebdirCondition();
+//            };
+//        }
+
+
+//        if (!$this->checks()) {
+//            // return value is not descriptive, but waas populated to view, we decide what is error or logged, no need exception or error object then
+//            return false;
+//        }
+
+
+
 
         call_user_func_array([$this,$action[0]], $action[1]);
         //$this->$action($messageCounter)
+    }
+
+
+    /**
+     * @param $currentPackageDir
+     * @param $ownPackageAssetsDir
+     * @param $params
+     * @param $messageCounter
+     * @throws \Exception
+     */
+    public function checks($currentPackageDir, $ownPackageAssetsDir, $params, &$messageCounter)
+    {
+
+        $error = '';
+        // a throw a odchytit excepsn len na namapovanie error cisla na spravu, ale  throw -1, catch -1 = "error message", echo error message ale aj if not error
+        if (empty($params['w'])) {
+            $error =  $this->actionFailedWebdirCondition($messageCounter);
+        }
+
+
+
+        //if (!$error && empty($params['p']) && !$currentPackageDir) {
+//        if (!$error && !$currentPackageDir && empty($params['p']) ) {
+//            $error = -2;
+//        }
+
+
+//        if (!$error && !$ownPackageAssetsDir && empty($params['o']) ) {
+//            $error = -3;
+//        }
+
+
+
+
+        if ($error) {
+
+            // map the error
+
+            throw new \Exception('', $error);
+            // if else if coudl nto connect a ife lse chyby else typy excepsnien davat i ked mohli rovno vypisat excepsn kontent
+        }
+
+
+
     }
 
     /**
@@ -239,41 +358,7 @@ class PackagesAssetsSupport
         }
 
 
-        // @TODO: add create dir and symlink dir, goes deep, separate to other class
-
-        $messageCounter *=10;  echo "\n";
-        echo   str_pad(" ", strlen($messageCounter)+1).++$messageCounter . " \033[31m Precreating assets folders for \e[0m \"" . $webDir . "\" \e[31m  webdir \033[0m     \n";
-
-        $messageCounter *=10;  echo "\n";
-
-        foreach ($assetPackages as $package) {
-
-
-
-
-            echo   str_pad(" ", strlen($messageCounter)+1).++$messageCounter . " Precreating assets folder for \e[31m ! ".$package." !\e[0m  package     \n";
-
-
-            $relativePackageAssetsDir = dirname($this->getAssetsDir($currentPackageDir, $package));
-
-            // singular for all using this technique, not to clutter , single assets dir, not for every vendor even though it might happen
-
-
-
-            // cd backend/web/    packageAssets         /fantomx1/datatables/   components (/jqueryui this one not yet)
-            // till here static his->packagesAssetsSubdir . '/' . $prefix . '/
-            exec(
-                'cd ' . $webDir . ' && mkdir -p ' . $relativePackageAssetsDir . ';',
-                $out
-            );
-            var_dump($out);
-        }
-        $messageCounter /=10;
-        $messageCounter = floor($messageCounter)+1; echo "\n";
-
-
-        $messageCounter /=10;
-        $messageCounter = floor($messageCounter)+1; echo "\n";
+        $this->precreateAssetsFolders($messageCounter, $webDir,$assetPackages, $currentPackageDir);
 
         $messageCounter *=10;  echo "\n";
 
@@ -310,6 +395,54 @@ class PackagesAssetsSupport
 
         $messageCounter /=10;
         $messageCounter = floor($messageCounter)+1; echo "\n";
+
+        $messageCounter /=10;
+        $messageCounter = floor($messageCounter)+1; echo "\n";
+
+    }
+
+
+    /**
+     * @param $messageCounter
+     * @param $webDir
+     * @param $assetPackages
+     * @param $currentPackageDir
+     */
+    protected function precreateAssetsFolders($messageCounter, $webDir, $assetPackages, $currentPackageDir)
+    {
+
+        // @TODO: add create dir and symlink dir, goes deep, separate to other class
+
+        $messageCounter *=10;  echo "\n";
+        echo   str_pad(" ", strlen($messageCounter)+1).++$messageCounter . " \033[31m Precreating assets folders for \e[0m \"" . $webDir . "\" \e[31m  webdir \033[0m     \n";
+
+        $messageCounter *=10;  echo "\n";
+
+        foreach ($assetPackages as $package) {
+
+
+
+
+            echo   str_pad(" ", strlen($messageCounter)+1).++$messageCounter . " Precreating assets folder for \e[31m ! ".$package." !\e[0m  package     \n";
+
+
+            $relativePackageAssetsDir = dirname($this->getAssetsDir($currentPackageDir, $package));
+
+            // singular for all using this technique, not to clutter , single assets dir, not for every vendor even though it might happen
+
+
+
+            // cd backend/web/    packageAssets         /fantomx1/datatables/   components (/jqueryui this one not yet)
+            // till here static his->packagesAssetsSubdir . '/' . $prefix . '/
+            exec(
+                'cd ' . $webDir . ' && mkdir -p ' . $relativePackageAssetsDir . ';',
+                $out
+            );
+            var_dump($out);
+        }
+        $messageCounter /=10;
+        $messageCounter = floor($messageCounter)+1; echo "\n";
+
 
         $messageCounter /=10;
         $messageCounter = floor($messageCounter)+1; echo "\n";

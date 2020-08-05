@@ -9,12 +9,26 @@ handles assets for generic(=non-framework specific) php packages
 root@a3c3ba4d7b46:/var/www/html/myproject.com# PHP_IDE_CONFIG="serverName=server_name"  php vendor/fantomx1/datatabless/initAssets.php -w backend/web/,frontend/web
 ```
 various symlink locations for redistributions must be comma separated like 'backend/web, frontend/web'
-The list of asset packages in regard must be listed in the library using this one, in a json file
-named 'assetPackages.json'. Those will be destined to be handled by asset manager.
-(Note: In future can be added functionality of publishing only the specific asset part of the other library,
-however this library is not intended to solve intricacies of other libraries assets, since they can share
-just this library to solve their issues, though it might be added later)
+The list of asset packages in regard must be listed in a json file named 'assetPackages.json' in your project. Those will be handled by this asset manager library.
 
+You must have 1) an own script  created in your project, or 2) calling it directly via a command line.
+1) using own script (and calling it the way above mentioned)
+```
+// fantomx1/datatables/initAssets.php
+include "vendor/autoload.php";
+
+$packageAssetsSupport = new \fantomx1\PackagesAssetsSupport();
+// the 2nd voluntary parameter is the relative path of own assets to handle
+$packageAssetsSupport->run(__DIR__, "assets");
+```
+
+2) calling it directly from a specific library - 
+```
+/var/www/html/fantomx1/ToolMasterForeman# php vendor/fantomx1/packages-assets-support/initAssets.php  -w=examples/assets -o=./testAssets
+```
+- where the "-p -package" - references relatively the curret package it is used in (toolmasterForeman)
+- where the "-w -webdir" - comma separated references the directories where to distribute/publish assets using symlinks
+   
 (
 then using inside a packages view like for other library assets
 ```
