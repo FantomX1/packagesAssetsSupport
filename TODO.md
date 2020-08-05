@@ -26,3 +26,14 @@ just this library to solve their issues, though it might be added later)
 
 8 ) refactor other object plus inner loop and closures and eventually exceptions flow of condtions and exxceptions types else clauses without negative
 interuptions
+
+
+old readme
+
+```
+/var/www/html/fantomx1/ToolMasterForeman# php vendor/fantomx1/packages-assets-support/initAssets.php  -w=examples/assets -p=./ -o=./testAssets
+```
+- where the "-p -package" - references relatively the curret package it is used in (toolmasterForeman)
+- where the "-w -webdir" - comma separated references the directories where to distribute/publish assets using symlinks
+- -- where the "-o -ownPackageDir" - defines own relative assets directory if we wish to publish this way also our assets directory, 
+this is almost exclusively used if we use own project as a library (obsolete, now automatically takes getcwd) --
