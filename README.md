@@ -26,8 +26,11 @@ $packageAssetsSupport->run(__DIR__, "assets");
 ```
 /var/www/html/fantomx1/ToolMasterForeman# php vendor/fantomx1/packages-assets-support/initAssets.php  -w=examples/assets -o=./testAssets
 ```
-- where the "-p -package" - references relatively the curret package it is used in (toolmasterForeman)
+~~- where the "-p -package" - references relatively the curret package it is used in (toolmasterForeman)~~ -p is now automatic as a current working directory
 - where the "-w -webdir" - comma separated references the directories where to distribute/publish assets using symlinks
+- where the "-o --ownAssetsDir" - the directory of the package's own assets to  publish 
+
+All the available command line parameters are listed inside [availableParams.php](availableParams.php) file.
    
 (
 then using inside a packages view like for other library assets

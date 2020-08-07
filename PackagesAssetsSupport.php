@@ -35,13 +35,7 @@ class PackagesAssetsSupport
     private function listAvailableParams()
     {
 
-        $paramsList =
-            [
-                'webdir'=>' public web directory document root, where to symlink the assets',
-                //'package'=>' current package working directory',
-                'ownAssetsDir'=>' Own assets directory',
-            ];
-
+        $paramsList = include "aavailableParams.php";
 
         echo "\n";
         echo " \033[31mList of parameters \033[0m     \n";
@@ -408,7 +402,7 @@ class PackagesAssetsSupport
      * @param $assetPackages
      * @param $currentPackageDir
      */
-    protected function precreateAssetsFolders($messageCounter, $webDir, $assetPackages, $currentPackageDir)
+    protected function precreateAssetsFolders(&$messageCounter, $webDir, $assetPackages, $currentPackageDir)
     {
 
         // @TODO: add create dir and symlink dir, goes deep, separate to other class

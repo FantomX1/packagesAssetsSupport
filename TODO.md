@@ -37,3 +37,10 @@ old readme
 - where the "-w -webdir" - comma separated references the directories where to distribute/publish assets using symlinks
 - -- where the "-o -ownPackageDir" - defines own relative assets directory if we wish to publish this way also our assets directory, 
 this is almost exclusively used if we use own project as a library (obsolete, now automatically takes getcwd) --
+
+
+9) functionality of blocking -  if it contains already a similar frontend library, not to clash
+
+
+10) include recursively other libraries too, better to list and execute commands for each such dependency explicitly
+at the time being for the gain/work ratio 
