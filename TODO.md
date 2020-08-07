@@ -43,4 +43,13 @@ this is almost exclusively used if we use own project as a library (obsolete, no
 
 
 10) include recursively other libraries too, better to list and execute commands for each such dependency explicitly
-at the time being for the gain/work ratio 
+at the time being for the gain/work ratio
+
+11) use for all the libraries same subdirectory, though the versions might clash, as they don't happen to be
+always in the library name, though on the other-side it's execution namespace could clash anyway in the first place 
+
+
+12) if is deeper  than in document root directory, those assets, or shared between via alias
+
+13) add prefix for deeper or an alias ,eg frontend launch script backend/web/script/index.php and assets ../assets, like backend/web/assets/
+or alias imges = /tmp , so move everything to web and add alias imges

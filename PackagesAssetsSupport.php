@@ -35,7 +35,7 @@ class PackagesAssetsSupport
     private function listAvailableParams()
     {
 
-        $paramsList = include "aavailableParams.php";
+        $paramsList = include "availableParams.php";
 
         echo "\n";
         echo " \033[31mList of parameters \033[0m     \n";
@@ -301,11 +301,23 @@ class PackagesAssetsSupport
     public function getAssetsDir($rootDirOfPackageUsedIn, $package)
     {
 
-        // @TODO: documeent roo? probably not as assets dir is next to assets so if its document root,
-        // or no, the path fits, regards web_dir, though if include file, adjust to app, not a task of, just cause of coping
-        // as with depth
-        // dir location of asset per package based on vendor and package name, for current package
-        $prefix = basename(dirname($rootDirOfPackageUsedIn)) . '/' . basename($rootDirOfPackageUsedIn);
+        // $rootDirOfPackageUsedIn = dirname(__DIR__, 3);
+
+        $bt = debug_backtrace();
+
+
+        $vendorDir = dirname(__DIR__, 2);
+
+        // replace vendor to handle cases when it's as an example in a non-vendor project or while type=path
+        $vendorDir = str_replace("vendor/", "", $vendorDir);
+
+        $caller = $bt[0]['file'] ;
+        $caller = str_replace("vendor/", "", $caller);
+
+        $dirCalled = str_replace($vendorDir, "", $caller);
+        $dirCalled = explode("/", $dirCalled);
+
+        $prefix = $dirCalled[1].'/'.$dirCalled[2];
 
         $result = $this->packagesAssetsSubdir . '/' . $prefix;
         if ($package) {
@@ -333,7 +345,7 @@ class PackagesAssetsSupport
         $ownPackageAssetsDir
     )
     {
-        if (!is_dir(getcwd() . '/' . $webDir)) {
+        if (!is_dir($currentPackageDir . '/' . $webDir)) {
 
             echo   str_pad(" ", strlen($messageCounter)+1).++$messageCounter . "  The web directory \e[31m \"" . $webDir . "\" \033[0m  does not exist! Supply a proper directory ,  \e[31m exiting ...\033[0m  \n";
             die();
