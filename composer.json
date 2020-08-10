@@ -12,7 +12,14 @@
             "fantomx1\\": "."
         }
     },
+    "minimum-stability ": "dev",
     "require": {
         "fantomx1/cli-parameters-parser": "@dev"
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/var/www/html/fantomx1/CliParametersParser"
+        }
+    ]
 }
