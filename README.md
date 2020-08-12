@@ -7,20 +7,12 @@ handles assets for generic(=non-framework specific) php packages
 
 There are 2 approaches
 
-You must have 1) **an own script created** in your project, or 2) calling it **directly calling this original package command** .
-1) using own script (and calling it the way above mentioned)
-```
-// fantomx1/datatables/initAssets.php
-include "vendor/autoload.php";
+You must have 1) calling it **directly calling this original package command** or 2) **an own script created** in your project .
 
-$packageAssetsSupport = new \fantomx1\PackagesAssetsSupport();
-// the 2nd voluntary parameter is the relative path of own assets to handle
-$packageAssetsSupport->run(__DIR__, "assets");
+1) calling it directly from a specific library - 
 ```
-
-2) calling it directly from a specific library - 
-```
-root@4d5d53247275:/var/www/html/wapp/myproject.com/vendor/fantomx1/datatabless# php /var/www/html/fantomx1/packagesAssetsSupport/initAssets.php -w=../../../backend/web,../../../frontend/web -o=datatables/assets   
+root@4d5d53247275:/var/www/html/wapp/myproject.com/vendor/fantomx1/datatabless# 
+php /var/www/html/fantomx1/packagesAssetsSupport/initAssets.php -w=../../../backend/web,../../../frontend/web -o=datatables/assets   
 ```
 ~~- where the "-p -package" - references relatively the curret package it is used in (toolmasterForeman)~~ -p is now automatic as a current working directory
 - where the "-w -webdir" - comma separated references the directories where to distribute/publish assets using symlinks
@@ -45,8 +37,22 @@ $pathToAssets
 </script>
 ```
 
-
 ~~where the $rootDir is the root dir of the our package in regard , it is being used in~~ - as of now v0.91 rootdir calculated automatically
+
+2) using own script (and calling it the way above mentioned)
+```
+// fantomx1/datatables/initAssets.php
+include "vendor/autoload.php";
+
+$packageAssetsSupport = new \fantomx1\PackagesAssetsSupport();
+// the 2nd voluntary parameter is the relative path of own assets to handle
+$packageAssetsSupport->run(__DIR__, "assets");
+```
+then calling it from it's own directory -
+```
+/var/www/html/fantomx1/ToolMasterForeman# 
+php vendor/fantomx1/packages-assets-support/initAssets.php  -w=examples/assets -o=./testAssets
+```
 
 )
 ## Output example:
