@@ -10,7 +10,9 @@
 //$params = new \fantomx1\CliParamsParser();
 
 
-include "vendor/autoload.php";
+// struggles being called not from own dr
+//include "vendor/autoload.php";
+include __DIR__."/vendor/autoload.php";
 
 //$params= new \fantomx1\CliParametersParser\CliParamsParser();
 

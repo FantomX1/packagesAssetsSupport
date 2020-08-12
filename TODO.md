@@ -53,3 +53,31 @@ always in the library name, though on the other-side it's execution namespace co
 
 13) add prefix for deeper or an alias ,eg frontend launch script backend/web/script/index.php and assets ../assets, like backend/web/assets/
 or alias imges = /tmp , so move everything to web and add alias imges
+
+
+14)
+        // or just pass similary a multiple webdirs with or pass abolutely and multiple and check add to docs
+        @TODO:
+//        if (basename(dirname($webDir, 3)) == "vendor") {
+//            $webDir = "/../../".$webDir;
+//        }
+
+
+15) a install i ci nie zbytocne
+
+
+16) dont throw error but order of errors not owerwritten, take second only if not earlier error
+        //if (!$error && empty($params['p']) && !$currentPackageDir) {
+//        if (!$error && !$currentPackageDir && empty($params['p']) ) {
+//            $error = -2;
+//        }
+
+
+//        if (!$error && !$ownPackageAssetsDir && empty($params['o']) ) {
+//            $error = -3;
+//        }
+
+17) check if still works on frontends and with backtrace bt getAssetsDir
+add call to dtables
+
+18) a rozlisenie inych vstupnych podmienok aj i takto
