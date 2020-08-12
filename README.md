@@ -9,7 +9,7 @@ There are 2 approaches
 
 You must have 1) calling it **directly calling this original package command** or 2) **an own script created** in your project .
 
-1) calling it directly from a specific library - 
+#### 1) calling it directly from a specific library - 
 ```
 root@4d5d53247275:/var/www/html/wapp/myproject.com/vendor/fantomx1/datatabless# 
 php /var/www/html/fantomx1/packagesAssetsSupport/initAssets.php -w=../../../backend/web,../../../frontend/web -o=datatables/assets   
@@ -39,7 +39,7 @@ $pathToAssets
 
 ~~where the $rootDir is the root dir of the our package in regard , it is being used in~~ - as of now v0.91 rootdir calculated automatically
 
-2) using own script (and calling it the way above mentioned)
+#### 2) using own script (and calling it the way above mentioned)
 ```
 // fantomx1/datatables/initAssets.php
 include "vendor/autoload.php";
