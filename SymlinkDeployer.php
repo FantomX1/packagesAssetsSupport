@@ -4,11 +4,21 @@
 namespace fantomx1;
 
 
+/**
+ * Class SymlinkDeployer
+ * @package fantomx1
+ */
 class SymlinkDeployer
 {
 
 
-
+    /**
+     * @param $currentPackageDir
+     * @param $messageCounter
+     * @param $assetPackages
+     * @param $webDir
+     * @param $ownPackageAssetsDir
+     */
     public function run(
 
         $currentPackageDir,
