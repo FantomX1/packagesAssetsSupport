@@ -7,7 +7,7 @@ handles assets for generic(=non-framework specific) php packages
 
 There are 2 approaches:
 
-1) calling it **directly calling this original package command** or 2) **using own wrapping script inside own package** in your project .
+either 1) calling it **directly calling this original package command** or 2) **using own wrapping script inside own package** in your project .
 
 #### 1) directly calling this original package command - 
 ```
