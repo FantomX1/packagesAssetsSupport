@@ -46,13 +46,30 @@ class SymlinkDeployer
 
         //$prefix='fcrons';
 
+        $ownPackageAssetsDir = explode(",", $ownPackageAssetsDir);
+
 
         $foldersToCreateAndLink = $assetPackages;
         // todo relative, absolute not advantage and makes problems for this, renameto folder to create
-        if ($ownPackageAssetsDir) {
-            $foldersToCreateAndLink[] = $ownPackageAssetsDir;
-        }
 
+
+        foreach ($ownPackageAssetsDir  as $package) {
+
+
+            $dir = PackagesAssetsSupport::getNonSymlinkedPath($package);
+            //if (!is_dir($currentPackageDir .'/'.$ownPackageAssetsDir)) {
+            // @TODO: share as error object as in datatables
+            if (!is_dir($dir)) {
+                throw new \Exception("", PackagesAssetsSupport::ERROR_MIN4);
+            }
+
+            $foldersToCreateAndLink[] = $package;
+
+        //if ($ownPackageAssetsDir) {
+
+        //}
+
+        }
 
         $this->precreateAssetsFolders($messageCounter, $webDir,$foldersToCreateAndLink, $currentPackageDir);
 

@@ -18,7 +18,6 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
     public  static $packagesAssetsSubdir = "packageAssets";
 
 
-
     /**
      * @var array
      */
@@ -26,9 +25,14 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
         -1 => " -w - WebDir parameter not supplied, is mandatory, exiting ...",
 //        -2 => ' -p - current package dir not specified',
         //-3 => '-o - own assets dir not specified'
-        -4 => ' The specified "ownAssetsDir" directory does not exist'
+        PackagesAssetsSupport:: ERROR_MIN4 => ' The specified "ownAssetsDir" directory does not exist'
     ];
 
+
+    /**
+     *
+     */
+    const ERROR_MIN4 =-4;
 
     /**
      *
@@ -43,8 +47,6 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
         foreach ($paramsList as $k => $listItem) {
             echo " \033[31m ". "-" . $k[0] . ", --" . $k ." \033[0m  " . " - " . $listItem."    \n";
             //echo "-" . $k[0] . ", --" . $k . " - " . $listItem . "\n";
-
-
         }
 
         echo "\n\n";
@@ -77,16 +79,12 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
 
         // if define action, handle later
         if (empty($params)) {
-
             $this->listAvailableParams();
             // show always
 //            die();
         }
 
-
         $messageCounter = 0;
-
-
 
         try {
 
@@ -112,14 +110,40 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
             if (isset($params['o'])) {
                 $ownPackageAssetsDir = $params['o'];
 
-
-                $dir =PackagesAssetsSupport::getNonSymlinkedPath($ownPackageAssetsDir);
-                //if (!is_dir($currentPackageDir .'/'.$ownPackageAssetsDir)) {
-                if (!is_dir($dir)) {
-                    throw new \Exception("", -4);
-                }
+//                $dir = PackagesAssetsSupport::getNonSymlinkedPath($ownPackageAssetsDir);
+//                //if (!is_dir($currentPackageDir .'/'.$ownPackageAssetsDir)) {
+//                if (!is_dir($dir)) {
+//                    throw new \Exception("", -4);
+//                }
 
             }
+
+
+
+            echo 'Current package dir     = "'.$currentPackageDir.'"'." \n";
+            echo 'Own package assets dir  = "'.$ownPackageAssetsDir.'"'." \n";
+
+            $assetPackages = [];
+
+            if (file_exists($currentPackageDir . "/assetPackages.json")) {
+
+                $assetPackages = file_get_contents($currentPackageDir . "/assetPackages.json");
+
+                $assetPackages = json_decode($assetPackages, true);
+
+                $assetPackages = $assetPackages['packages'];
+            }
+
+            $this->installAssetPackages($currentPackageDir, $assetPackages, $messageCounter);
+
+            // workaround for call func array
+            $action = ["distributePackagesAssets", [$currentPackageDir, $params, &$messageCounter, $assetPackages, $ownPackageAssetsDir]];
+
+            function() {
+                $this->distributePackagesAssets();
+            };
+
+            call_user_func_array([$this,$action[0]], $action[1]);
 
         } catch (\Exception $e) {
 
@@ -129,32 +153,6 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
 
         }
 
-
-        echo 'Current package dir     = "'.$currentPackageDir.'"'." \n";
-        echo 'Own package assets dir  = "'.$ownPackageAssetsDir.'"'." \n";
-
-        $assetPackages = [];
-
-        if (file_exists($currentPackageDir . "/assetPackages.json")) {
-
-            $assetPackages = file_get_contents($currentPackageDir . "/assetPackages.json");
-
-            $assetPackages = json_decode($assetPackages, true);
-
-            $assetPackages = $assetPackages['packages'];
-        }
-
-        $this->installAssetPackages($currentPackageDir, $assetPackages, $messageCounter);
-
-        // workaround for call func array
-        $action = ["distributePackagesAssets", [$currentPackageDir, $params, &$messageCounter, $assetPackages, $ownPackageAssetsDir]];
-
-        function() {
-            $this->distributePackagesAssets();
-        };
-
-
-        call_user_func_array([$this,$action[0]], $action[1]);
         //$this->$action($messageCounter)
     }
 
@@ -175,17 +173,11 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
             $error =  $this->actionFailedWebdirCondition($messageCounter);
         }
 
-
         if ($error) {
-
             // map the error
-
             throw new \Exception('', $error);
             // if else if coudl nto connect a ife lse chyby else typy excepsnien davat i ked mohli rovno vypisat excepsn kontent
         }
-
-
-
     }
 
     /**
@@ -215,13 +207,10 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
                 exec('composer require ' . $package, $out);
                 echo $out;
             }
-
         }
 
 
         if ($iAssetPackages && !$installed) {
-
-
             echo   str_pad(" ", strlen($messageCounter)+1).++$messageCounter . " \033[31m All asset packages are already installed, continuing...\033[0m  \n";
         }
     }
@@ -261,12 +250,9 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
             $h = new SymlinkDeployer();
             $h->run($currentPackageDir, $messageCounter, $assetPackages, $webDir, $ownPackageAssetsDir);
             // if it went over
-
-
         }
 
         $messageCounter = floor($messageCounter/10)+1; echo "\n";
     }
-
 
 }
