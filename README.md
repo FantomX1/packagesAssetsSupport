@@ -5,9 +5,9 @@ handles assets for generic(=non-framework specific) php packages
 
 ## Sample usage of installing the assets (via the library command initAssets):
 
-There are 2 approaches
+There are 2 approaches:
 
-You must have 1) calling it **directly calling this original package command** or 2) **using own wrapping script inside own package** in your project .
+1) calling it **directly calling this original package command** or 2) **using own wrapping script inside own package** in your project .
 
 #### 1) directly calling this original package command - 
 ```
@@ -37,7 +37,7 @@ php vendor/fantomx1/packages-assets-support/initAssets.php  -w=examples/assets -
 ```
 
 
-#### Referencing the craeted assets directory via assets handlers in views
+#### Referencing the created assets directory via assets handlers in views
 
 (
 then using inside a packages view file/class for accessing the symlinked assets directory
@@ -64,4 +64,4 @@ $pathToAssets
 
 ![Showcase](showcase.png)
 
-Output:
+
