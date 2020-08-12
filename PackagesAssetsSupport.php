@@ -205,7 +205,7 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
 
                 $installed = true;
                 exec('composer require ' . $package, $out);
-                echo $out;
+                var_dump($output);
             }
         }
 

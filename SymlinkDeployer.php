@@ -42,7 +42,17 @@ class SymlinkDeployer
 
 
         //$vendorDir = dirname($currentPackageDir, 2) . '/vendor';
-        $vendorDir = $currentPackageDir . '/vendor';
+        //$vendorDir = $currentPackageDir . '/vendor';
+
+        // back to original, after putting not symlink changed path, previously it was php getcwd, but it is symlink handled
+
+        // we asume it is called inside a dependency, though to check if used inside the same library
+        $vendorDir = dirname($currentPackageDir, 3) . '/vendor';
+
+        if (strpos($currentPackageDir,'vendor/')===false) {
+            $vendorDir = $currentPackageDir . '/vendor';
+        }
+
 
         //$prefix='fcrons';
 
