@@ -20,24 +20,6 @@ php /var/www/html/fantomx1/packagesAssetsSupport/initAssets.php -w=../../../back
 
 All the available command line parameters are listed inside [availableParams.php](availableParams.php) file.
    
-(
-then using inside a packages view file/class for accessing the symlinked assets directory
-```
-<?php
-$packageAssetsSupport = new \fantomx1\PackagesAssetsSupport();
-$pathToAssets 
-?>
-
-<script type="text/javascript" src="<?php echo $assetsHandler->getAssetsDir($rootDir, "components/jqueryui/).'/js/jsfile.js'; ?>">
-</script>
-
-// for own library assets not passing the vendor assets library name
-
-<script type="text/javascript" src="<?php echo $assetsHandler->getAssetsDir($rootDir, '').'/assets/js/jsfile.js'; ?>">
-</script>
-```
-
-~~where the $rootDir is the root dir of the our package in regard , it is being used in~~ - as of now v0.91 rootdir calculated automatically
 
 #### 2) using own wrapping script inside own package
 ```
@@ -53,6 +35,29 @@ then calling it from it's own directory -
 /var/www/html/fantomx1/ToolMasterForeman# 
 php vendor/fantomx1/packages-assets-support/initAssets.php  -w=examples/assets -o=./testAssets
 ```
+
+
+#### Referencing the craeted assets directory via assets handlers in views
+
+(
+then using inside a packages view file/class for accessing the symlinked assets directory
+```
+<?php
+$packageAssetsSupport = new \fantomx1\PackagesAssetsSupport();
+$pathToAssets 
+?>
+
+<script type="text/javascript" src="<?php echo $assetsHandler->getAssetsDir("", "components/jqueryui/).'/js/jsfile.js'; ?>">
+</script>
+
+// for own library assets not passing the vendor assets library name
+
+<script type="text/javascript" src="<?php echo $assetsHandler->getAssetsDir("", '').'/assets/js/jsfile.js'; ?>">
+</script>
+```
+
+~~<script type="text/javascript" src="<?php echo $assetsHandler->getAssetsDir($rootDir, "components/jqueryui/).'/js/jsfile.js'; ?>">~~
+~~where the $rootDir is the root dir of the our package in regard , it is being used in~~ - as of now v0.91 rootdir calculated automatically
 
 )
 ## Output example:
