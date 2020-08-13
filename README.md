@@ -1,7 +1,7 @@
 # packagesAssetsSupport
 handles assets for generic(=non-framework specific) php packages
 
-Takes care of distributing assets of packages and accessing them seamlessly inside views specified in a configuration file 'assetPackages.json' in a root directory.
+Takes care of distributing assets of packages and accessing them seamlessly inside views, specified in a configuration file 'assetPackages.json' in the root directory.
 Leveraging composer on the background to prevent duplicity along sharing a unified installation approach for assets and packages in PHP  .
 
 
