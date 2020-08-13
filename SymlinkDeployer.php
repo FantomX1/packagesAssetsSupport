@@ -52,6 +52,8 @@ class SymlinkDeployer
         if (strpos($currentPackageDir,'vendor/')===false) {
             $vendorDir = $currentPackageDir . '/vendor';
         }
+        // vendor dir different in loop for own packages @TODO, perhaps to put here some "shaft", = different var
+        // and use different var in the loop below for better transparency
 
 
         //$prefix='fcrons';
@@ -99,12 +101,14 @@ class SymlinkDeployer
 
             $relativePackageAssetsDir = dirname(PackagesAssetsSupport::getAssetsDir($currentPackageDir, $package, 1));
 
-            if ($package == $ownPackageAssetsDir) {
+            // @TODO: add index checking just because using same logic or put into parametrizable emthod
+            // as might introduce error if the own assets folder will have the same name as some library
+            if (in_array($package, $ownPackageAssetsDir)) {
                 // reuse for not duplicated logic and same output
                 // @TODO: perhaps multiple dirs for js, css, come later
                 // our own assets dir , so . dirname($package)  in it resolves to ./
                 // just direct
-                $depDir = $currentPackageDir . "/" .$ownPackageAssetsDir;
+                $depDir = $currentPackageDir . "/" .$package;
             }
 
             // example
