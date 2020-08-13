@@ -19,15 +19,14 @@ root@4d5d53247275:/var/www/html/wapp/myproject.com/vendor/fantomx1/datatabless#
 php /var/www/html/fantomx1/packagesAssetsSupport/initAssets.php -w=../../../backend/web,../../../frontend/web -o=datatables/assets   
 ```
 ~~- where the "-p -package" - references relatively the curret package it is used in (toolmasterForeman)~~ -p is now automatic as a current working directory
-- where the "-w -webdir" - comma separated references the directories where to distribute/publish assets using symlinks
-- where the "-o --ownAssetsDir" - the directory of the package's own assets to  publish 
+- where the "**-w -webdir**" - comma separated references the directories where to distribute/publish assets using symlinks
+- where the "**-o --ownAssetsDir**" - the directory of the package's own assets to  publish 
 
 All the available command line parameters are listed inside [availableParams.php](availableParams.php) file.
    
 
 #### 2) using own wrapping script inside own package
-- this approach is maybe a little more concise and perhaps a little more transparent for the user and the package
-owner gives impression that there is not executed a script from another library, however it needs a wrapper script workload
+- this approach is maybe a little more concise and perhaps a little more transparent for the package user, it gives an impression that there is not executed a script from another library, however it needs a wrapper script workload
 ```
 // fantomx1/datatables/initAssets.php
 include "vendor/autoload.php";
@@ -46,7 +45,7 @@ php vendor/fantomx1/packages-assets-support/initAssets.php  -w=examples/assets -
 #### Referencing the created assets directory via assets handlers in views
 
 (
-then using inside a packages view file/class for accessing the symlinked assets directory
+using inside a packages' view file/class for accessing the symlinked assets directory
 ```
 <?php
 $packageAssetsSupport = new \fantomx1\PackagesAssetsSupport();
