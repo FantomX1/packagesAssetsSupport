@@ -240,6 +240,10 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
 
         $this->m($messageCounter, " \e[31m Creating dirs for symlinks and symlinking - \033[0m  ".$webDir." \n", [ 'webDir' => $webDir ]);
 
+
+        $h = new SymlinkDeployer();
+        $h->configure($currentPackageDir, $messageCounter, $assetPackages, $ownPackageAssetsDir);
+
         $messageCounter*=10; echo "\n";
         foreach ($webDirs as $webDir) {
             $messageCounterBp = $messageCounter;
@@ -247,8 +251,7 @@ class PackagesAssetsSupport extends PackageAssetsAbstract
 
             $this->m($messageCounter, " \e[31m Deploying to the web directory - \033[0m  ".$webDir." \n", [ 'webDir' => $webDir ]);
 
-            $h = new SymlinkDeployer();
-            $h->run($currentPackageDir, $messageCounter, $assetPackages, $webDir, $ownPackageAssetsDir);
+            $h->run($webDir);
             // if it went over
         }
 

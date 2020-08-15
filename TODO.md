@@ -81,3 +81,7 @@ or alias imges = /tmp , so move everything to web and add alias imges
 add call to dtables
 
 18) a rozlisenie inych vstupnych podmienok aj i takto
+
+
+19) todo check that it is already in the composer.json to be it more transparent, though
+in parent directory it doesn't have to eb deployed anywhere yet, update docs

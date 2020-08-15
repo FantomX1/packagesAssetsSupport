@@ -12,6 +12,30 @@ class SymlinkDeployer
 {
 
 
+    /*
+     *
+     */
+    public function configure(
+        $currentPackageDir,
+        &$messageCounter,
+        $assetPackages,
+        $ownPackageAssetsDir
+    )
+    {
+
+//        $this->currentPackageDir = $currentPackageDir;
+//        $this->messageCounter = $messageCounter;
+//        $this->assetPackages = $assetPackages;
+//        $this->ownPackageAssetsDir = $ownPackageAssetsDir;
+// list($drink, $color, $power) = $info;
+        $this->config = [
+            'currentPackageDir'   => $currentPackageDir,
+            'messageCounter'      => $messageCounter,
+            'assetPackages'       => $assetPackages,
+            'ownPackageAssetsDir' => $ownPackageAssetsDir
+        ];
+    }
+
     /**
      * @param $currentPackageDir
      * @param $messageCounter
@@ -21,13 +45,17 @@ class SymlinkDeployer
      */
     public function run(
 
-        $currentPackageDir,
-        &$messageCounter,
-        $assetPackages,
-        $webDir,
-        $ownPackageAssetsDir
+//        $currentPackageDir,
+//        &$messageCounter,
+//        $assetPackages,
+        $webDir
+        //$ownPackageAssetsDir
     )
     {
+        // list($drink, $color, $power) = $info;  a poradie checkya  kompilator indea  i prehodis a je takmer iste ze prehodil
+        // a extract alebo destructing assignmetn
+        // by assign a extract len readonly
+        extract($this->config);
 
         // as php auto translates symlinks what is odd
 //        exec("pwd", $cwd );

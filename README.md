@@ -15,8 +15,7 @@ either 1) calling it **directly calling this original package command** or 2) **
 - this approach is more straightforward and simple, as the command is available from the shelf to be called from
 any package from it's original location
 ```
-root@4d5d53247275:/var/www/html/wapp/myproject.com/vendor/fantomx1/datatabless# 
-php /var/www/html/fantomx1/packagesAssetsSupport/initAssets.php -w=../../../backend/web,../../../frontend/web -o=datatables/assets   
+oot@4d5d53247275:/var/www/html/wapp/myproject.com# (cd vendor/fantomx1/datatabless && php $(cd ../../../vendor/fantomx1/packages-assets-support && pwd)/initAssets.php -w ../../../backend/web -o assets)       
 ```
 ~~- where the "-p -package" - references relatively the curret package it is used in (toolmasterForeman)~~ -p is now automatic as a current working directory
 - where the "**-w -webdir**" - comma separated references the directories where to distribute/publish assets using symlinks
@@ -38,7 +37,7 @@ $packageAssetsSupport->run(__DIR__, "assets");
 then calling it from it's own directory -
 ```
 /var/www/html/fantomx1/ToolMasterForeman# 
-php vendor/fantomx1/packages-assets-support/initAssets.php  -w=examples/assets -o=./testAssets
+php vendor/fantomx1/datatables/initAssets.php  -w=examples/assets -o=./testAssets
 ```
 
 

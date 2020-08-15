@@ -48,6 +48,7 @@ abstract class PackageAssetsAbstract
         $dirCalled[1]= basename(dirname($path));
         $dirCalled[2]= basename($path);
 
+        // if package goes from command line they have straight the format Word-Word-Word due to packagist
         if (!$fromCli) {
         // a checkni i zo skriptu ale zatial bez skriptu i nespravy dir
             $bt = debug_backtrace();
@@ -69,6 +70,12 @@ abstract class PackageAssetsAbstract
             $dirCalled = str_replace($vendorDir, "", $caller);
 
             $dirCalled = explode("/", $dirCalled);
+
+
+            // if we happen to have it in own, not conforming composer standard name local directory
+            $dirCalled[2] = preg_split('/(?=[A-Z])/', $dirCalled[2]);
+            $dirCalled[2] = implode("-",$dirCalled[2]);
+            $dirCalled[2] = strtolower($dirCalled[2]);
         }
 
 
