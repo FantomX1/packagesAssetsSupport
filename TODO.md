@@ -85,3 +85,5 @@ add call to dtables
 
 19) todo check that it is already in the composer.json to be it more transparent, though
 in parent directory it doesn't have to eb deployed anywhere yet, update docs
+
+20) todo readlink xargs for the 

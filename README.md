@@ -15,11 +15,13 @@ either 1) calling it **directly calling this original package command** or 2) **
 - this approach is more straightforward and simple, as the command is available from the shelf to be called from
 any package from it's original location
 ```
-oot@4d5d53247275:/var/www/html/wapp/myproject.com# (cd vendor/fantomx1/datatabless && php $(cd ../../../vendor/fantomx1/packages-assets-support && pwd)/initAssets.php -w ../../../backend/web -o assets)       
+(cd vendor/fantomx1/datatabless && php $(cd ../../../vendor/fantomx1/packages-assets-support && pwd)/initAssets.php -w ../../../backend/web -o assets)       
 ```
 ~~- where the "-p -package" - references relatively the curret package it is used in (toolmasterForeman)~~ -p is now automatic as a current working directory
 - where the "**-w -webdir**" - comma separated references the directories where to distribute/publish assets using symlinks
 - where the "**-o --ownAssetsDir**" - the directory of the package's own assets to  publish 
+
+(Note: subcommand syntax is for resolving symlinks - $(cd ../../../vendor/fantomx1/packages-assets-support && pwd)/initAssets.php )
 
 All the available command line parameters are listed inside [availableParams.php](availableParams.php) file.
    
