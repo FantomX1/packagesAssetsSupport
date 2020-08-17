@@ -87,3 +87,5 @@ add call to dtables
 in parent directory it doesn't have to eb deployed anywhere yet, update docs
 
 20) todo readlink xargs for the 
+
+21) support for htaccess mod rewrite paths as controllers etc, which bypass such structure for images
