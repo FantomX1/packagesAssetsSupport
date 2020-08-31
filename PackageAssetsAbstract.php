@@ -89,7 +89,32 @@ abstract class PackageAssetsAbstract
         }
 
         // workaround with local
+
+
+        $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+        $requestUri = $_SERVER['REQUEST_URI'];
+
+        $rewriteModeScript = str_replace($scriptName, '', $requestUri);
+        $rewriteModeScript = trim($rewriteModeScript, "/");
+        $virSubdirCnt = substr_count($rewriteModeScript,'/');
+
+        $subdir = str_repeat("../", $virSubdirCnt);
+
+        // workaround with local
         $result = str_replace("datatabless/","datatables/", $result);
+        $result = $subdir.$result;
+
+
+        if (!$fromCli && !file_exists($result)) {
+            // @TODO: ammend dir
+            throw new \Exception(
+                "The asset ".$result." does not exist. Did you issue the initAssets.php command listing web-dir
+                 where to deploy
+                 (cd vendor/fantomx1/datatables && php $(cd ../../../vendor/fantomx1/packages-assets-support && pwd)/initAssets.php -w ../../../public)                 
+                 (, or is the library ".$package." listend in assetPackages.json in your package ".$prefix.") ?"
+            );
+        }
+
 
         return $result;
     }
