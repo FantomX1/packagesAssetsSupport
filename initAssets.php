@@ -12,6 +12,9 @@
 
 // struggles being called not from own dr
 //include "vendor/autoload.php";
+
+// @TODO: must be installed also the package which needs autoload, or addressing relativelly when servering as a package, or symlinked or reworking as a composer command
+
 include __DIR__."/vendor/autoload.php";
 
 //$params= new \fantomx1\CliParametersParser\CliParamsParser();

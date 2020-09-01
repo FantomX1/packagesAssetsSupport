@@ -83,40 +83,43 @@ abstract class PackageAssetsAbstract
         $prefix = $dirCalled[1].'/'.$dirCalled[2];
 
 
-        $result = static::$packagesAssetsSubdir . '/' . $prefix;
+        $assetsDir = static::$packagesAssetsSubdir . '/' . $prefix;
         if ($package) {
-            $result .= '/'.$package;
+            $assetsDir .= '/'.$package;
         }
 
         // workaround with local
 
 
-        $scriptName = dirname($_SERVER['SCRIPT_NAME']);
-        $requestUri = $_SERVER['REQUEST_URI'];
-
-        $rewriteModeScript = str_replace($scriptName, '', $requestUri);
-        $rewriteModeScript = trim($rewriteModeScript, "/");
-        $virSubdirCnt = substr_count($rewriteModeScript,'/');
-
-        $subdir = str_repeat("../", $virSubdirCnt);
-
-        // workaround with local
-        $result = str_replace("datatabless/","datatables/", $result);
-        $result = $subdir.$result;
+        $assetsDir = str_replace("datatabless/","datatables/", $assetsDir);
 
 
-        if (!$fromCli && !file_exists($result)) {
-            // @TODO: ammend dir
-            throw new \Exception(
-                "The asset ".$result." does not exist. Did you issue the initAssets.php command listing web-dir
-                 where to deploy
-                 (cd vendor/fantomx1/datatables && php $(cd ../../../vendor/fantomx1/packages-assets-support && pwd)/initAssets.php -w ../../../public)                 
-                 (, or is the library ".$package." listend in assetPackages.json in your package ".$prefix.") ?"
-            );
+        if (!$fromCli) {
+            $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+            $requestUri = $_SERVER['REQUEST_URI'];
+
+            $rewriteModeScript = str_replace($scriptName, '', $requestUri);
+            $rewriteModeScript = trim($rewriteModeScript, "/");
+            $virSubdirCnt = substr_count($rewriteModeScript,'/');
+
+            $subdir = str_repeat("../", $virSubdirCnt);
+
+            // workaround with local
+
+            if (!is_dir(dirname($_SERVER['SCRIPT_FILENAME']).'/'.$assetsDir)) {
+                throw new \Exception(
+                    "The asset ".$subdir.$assetsDir." does not exist. Did you issue the initAssets.php command listing the web-dir
+                     where to deploy
+                     (cd vendor/".$prefix." && php $(cd ../../../vendor/fantomx1/packages-assets-support && pwd)/initAssets.php -w ../../../public)                 
+                     (, or is the library ".$package." listend in assetPackages.json in your package ".$prefix.") ?"
+                );
+            }
+
+            $assetsDir = $subdir.$assetsDir;
         }
 
 
-        return $result;
+        return $assetsDir;
     }
 
 
